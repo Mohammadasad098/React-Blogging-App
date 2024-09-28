@@ -9,6 +9,7 @@ import Register from './pages/Register.jsx';
 import Profile from './pages/Profile.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import ProtectedRoutes from './components/ProtectedRoutes.jsx';
+import Logout from './pages/Logout.jsx';
 
 const router = createBrowserRouter([
     {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             {
                 path: "dashboard",
                 element: <ProtectedRoutes component={<Dashboard/>}/>
+            },
+            {
+                path: "logout",
+                element: <ProtectedRoutes component={<Logout/>}/>
             },
             {
                 path: "user",
