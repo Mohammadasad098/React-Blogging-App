@@ -5,9 +5,6 @@ import { onAuthStateChanged } from 'firebase/auth';
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
 
   const fetchBlogs = async () => {
     try {
@@ -17,9 +14,6 @@ const Home = () => {
       
     } catch (err) {
       console.error("Error fetching blogs:", err);
-      setError("Failed to fetch blogs.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -39,14 +33,6 @@ const Home = () => {
   }, []);
 
 
-  if (loading) {
-    return <span className="loading m-8 loading-spinner loading-lg text-info"></span>;
-  }
-
-
-  if (error) {
-    return <div className="error m-8 text-red-500 text-center">{error}</div>;
-  }
 
   return (
     <>
@@ -67,7 +53,7 @@ const Home = () => {
           </div>
         ))
       ) : (
-        <div className="text-center text-gray-500 text-xl">No blogs found.</div>
+        <h1 className='text-center'><span className="loading m-10 loading-spinner loading-lg text-info"></span></h1>
       )}
     </>
   );
