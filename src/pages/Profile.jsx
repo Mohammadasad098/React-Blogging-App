@@ -13,7 +13,7 @@ const Profile = () => {
     reset,
   } = useForm();
 
-  const [singalUserData, setSingalUserData] = useState({}); 
+  const [profileData, setProfileData] = useState({}); 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -24,7 +24,7 @@ const Profile = () => {
           querySnapshot.forEach((doc) => {
             const userData = doc.data();
             console.log(userData);
-            setSingalUserData(userData);
+            setProfileData(userData);
           });
         } catch (error) {
           console.log('Error fetching user data:', error);
@@ -72,14 +72,14 @@ const Profile = () => {
         
        <form onSubmit={handleSubmit(onSubmit)}>
           {/* Old Password*/}
-          {singalUserData.profileImage && (
+          {profileData.profileImage && (
           <div className="mb-4">
             <img 
-              src={singalUserData.profileImage} 
+              src={profileData.profileImage} 
               alt="User"
               className="w-36 h-36 border-2 rounded-lg border-gray-300" 
             />
-            <h1>{singalUserData.fullname} </h1>
+            <h1>{profileData.fullname} </h1>
           </div>
         )} 
           <div className="form-control mb-4">
