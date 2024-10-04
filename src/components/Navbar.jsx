@@ -38,12 +38,12 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="border-gray-200 dark:bg-gray-900 bg-[#00b5fd]">
+    <nav className="border-gray-200 bg-[#00b5fd]">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
         {/* Logo */}
         <Link to="/">
-          <span className="self-center text-2xl hover:text-white font-semibold whitespace-nowrap dark:text-black text-black">
+          <span className="self-center text-2xl hover:text-white font-semibold whitespace-nowrap text-black">
             Personal Blogging App
           </span>
         </Link>
@@ -88,7 +88,7 @@ const Navbar = () => {
               <li key={index}>
                 <Link
                   to={path}
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-white md:p-0 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-white md:p-0 dark:text-white dark:hover:text-white md:dark:hover:bg-transparent"
                   onClick={handleLinkClick} 
                 >
                   {path === "/" ? "Home" : path.charAt(1).toUpperCase() + path.slice(2)}

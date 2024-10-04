@@ -57,7 +57,7 @@ const singleUserBlogs = (item) => {
   return (
     <>
      <div className="my-6 p-6 border-4 border-gray-300 rounded-lg">
-  <h1 className="text-5xl font-bold text-gray-800 dark:text-white text-center">
+  <h1 className="text-5xl font-bold text-gray-800 text-center">
     All Blogs
   </h1>
 </div>
