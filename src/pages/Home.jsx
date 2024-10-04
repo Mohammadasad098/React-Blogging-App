@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { auth, db, getAllData } from '../config/firebase/firebasemethods';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [users, setUsers] = useState([]);
@@ -80,7 +80,7 @@ const singleUserBlogs = (item) => {
           <div className="flex-1">
             <h2 className="text-4xl font-bold text-gray-800 mb-2">{item.title}</h2>
             <p className="text-lg text-gray-600">{item.description}</p>
-            <button className='text-[#00b5fd] text-2xl my-3' onClick={() => singleUserBlogs(item)}>see all from this user</button>
+            <Link to={'/singleuser'}><button className='text-[#00b5fd] text-2xl my-3' onClick={() => singleUserBlogs(item)}>see all from this user</button></Link>
           </div>
         </div>
       );

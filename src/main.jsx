@@ -46,6 +46,10 @@ const router = createBrowserRouter([
                 element: <SingleUser/>
             },
             {
+                path: "singleuser",
+                element: <ProtectedRoutes component={<SingleUser/>}/>
+            },
+            {
                 path: "user",
                 element: <ProtectedRoutes/>
             },
