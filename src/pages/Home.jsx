@@ -80,7 +80,7 @@ const singleUserBlogs = (item) => {
           <div className="flex-1">
             <h2 className="text-4xl font-bold text-gray-800 mb-2">{item.title}</h2>
             <p className="text-lg text-gray-600">{item.description}</p>
-            <Link to={'/singleuser'}><button className='text-[#00b5fd] text-2xl my-3' onClick={() => singleUserBlogs(item)}>see all from this user</button></Link>
+           <button className='text-[#00b5fd] text-2xl my-3' onClick={() => singleUserBlogs(item)}>see all from this user</button>
           </div>
         </div>
       );

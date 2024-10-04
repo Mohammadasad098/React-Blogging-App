@@ -1,16 +1,16 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { auth } from '../config/firebase/firebasemethods'; // Adjust path as necessary
+import { auth } from '../config/firebase/firebasemethods';
 import { useNavigate } from 'react-router-dom';
-import Register from '../pages/Register';
+import Login from '../pages/Login';
 
-const RegisterProtectedRoute = () => {
+const LoginProtectedRoute = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setLoading(false);
+            setLoading(false); 
             if (user) {
 
                 navigate('/dashboard');
@@ -25,14 +25,14 @@ const RegisterProtectedRoute = () => {
         <div>
             {loading ? <h1>Loading...</h1> : (
                 <div>
-                   
-                    <Register/>
-                    
+
+                    <Login/>
+
                 </div>
             )}
         </div>
     );
 };
 
-export default RegisterProtectedRoute;
+export default LoginProtectedRoute;
 

@@ -9,8 +9,10 @@ import Register from './pages/Register.jsx';
 import Profile from './pages/Profile.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import ProtectedRoutes from './components/ProtectedRoutes.jsx';
+import RegisterProtectedRoute from './components/RegisterProtectedRoute.jsx';
 import Logout from './pages/Logout.jsx';
 import SingleUser from './pages/SingleUser.jsx';
+import LoginProtectedRoute from './components/LoginProtectedRoute.jsx';
 
 const router = createBrowserRouter([
     {
@@ -23,11 +25,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "login",
-                element: <Login/>
+                element: <LoginProtectedRoute component={<Login/>}/>
             },
             {
                 path: "register",
-                element: <Register/>
+                element: <RegisterProtectedRoute component={<Register/>}/>
             },
             {
                 path: "profile",
@@ -44,10 +46,6 @@ const router = createBrowserRouter([
             {
                 path: "singleUser/:uid",
                 element: <SingleUser/>
-            },
-            {
-                path: "singleuser",
-                element: <ProtectedRoutes component={<SingleUser/>}/>
             },
             {
                 path: "user",
