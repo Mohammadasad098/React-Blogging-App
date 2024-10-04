@@ -7,11 +7,11 @@ const Logout = () => {
    const userLogout = () => {
     signOutUser(auth)
     .then((message) => {
-      console.log(message);
-      console.log('successfully Logout');
+      // console.log(message);
+      // console.log('successfully Logout');
     })
     .catch((error) => {
-      console.error("Sign out failed: ", error);
+      // console.error("Sign out failed: ", error);
     });
    }
       

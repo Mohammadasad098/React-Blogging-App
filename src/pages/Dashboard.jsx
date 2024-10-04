@@ -1,54 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { auth, deleteDocument, getData , sendData } from '../config/firebase/firebasemethods';
+import { auth , getData, sendData } from '../config/firebase/firebasemethods';
 import { onAuthStateChanged } from 'firebase/auth';
 
-
 const Dashboard = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
+    const DataOfBlog = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        console.log(user.uid);
         const blogsData = await getData('blogs', user.uid);
-        console.log(blogsData);
-        setBlogs([...blogsData]);
+        // console.log(blogsData);
+        setBlogs(blogsData);
       }
     });
+    return () => DataOfBlog();
   }, []);
 
   const sendDatatoFirestore = async (data) => {
-    console.log(data);
+    setLoading(true);
     try {
-      const response = await sendData(
+      const response = await sendData({
+        title: data.title,
+        description: data.description,
+        uid: auth.currentUser.uid,
+      }, 'blogs');
+
+      setBlogs((prevBlogs) => [
+        ...prevBlogs,
         {
           title: data.title,
           description: data.description,
           uid: auth.currentUser.uid,
         },
-        'blogs'
-      );
-      blogs.push({
-        title: data.title,
-        description: data.description,
-        uid: auth.currentUser.uid,
-      });
-      setBlogs([...blogs]);
-      console.log(response);
+      ]);
       reset();
+      // console.log(response);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
+
+    } finally {
+      setLoading(false);
     }
   };
-
 
   return (
     <>
@@ -83,26 +79,25 @@ const Dashboard = () => {
         <button
           type="submit"
           className="w-full py-3 bg-[#00b5fd] text-white rounded-lg"
+          disabled={loading}
         >
-          Publish blog
+          {loading ? <span className="loading loading-dots loading-md"></span> : 'Publish blog'}
         </button>
       </form>
       {blogs.length > 0 ? (
-        blogs.map((item, index) => {
-          return (
-            <div
-              key={index}
-              className="bg-white shadow-md rounded-lg p-6 my-4 mx-auto max-w-3xl border border-gray-200"
-            >
-              <h1 className="text-2xl font-bold text-gray-800 mb-2">
-                {item.title}
-              </h1>
-              <p className="text-gray-600">{item.description}</p>
-            </div>
-          );
-        })
+        blogs.map((item, index) => (
+          <div
+            key={index}
+            className="bg-white shadow-md rounded-lg p-6 my-4 mx-auto max-w-3xl border border-gray-200"
+          >
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">
+              {item.title}
+            </h1>
+            <p className="text-gray-600">{item.description}</p>
+          </div>
+        ))
       ) : (
-        <h1 className='text-center m-10 text-4xl'>no blogs found</h1>
+        <h1 className='text-center m-10 text-4xl'>No blogs found</h1>
       )}
     </>
   );

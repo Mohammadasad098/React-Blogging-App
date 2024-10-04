@@ -10,6 +10,7 @@ import Profile from './pages/Profile.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import ProtectedRoutes from './components/ProtectedRoutes.jsx';
 import Logout from './pages/Logout.jsx';
+import SingleUser from './pages/SingleUser.jsx';
 
 const router = createBrowserRouter([
     {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
             {
                 path: "logout",
                 element: <ProtectedRoutes component={<Logout/>}/>
+            },
+            {
+                path: "singleUser/:uid",
+                element: <SingleUser/>
             },
             {
                 path: "user",

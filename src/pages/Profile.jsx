@@ -14,77 +14,80 @@ const Profile = () => {
   } = useForm();
 
   const [profileData, setProfileData] = useState({}); 
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const changingInPassword = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
           const q = query(collection(db, "users"), where("id", "==", user.uid));
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
             const userData = doc.data();
-            console.log(userData);
+            // console.log(userData);
             setProfileData(userData);
           });
         } catch (error) {
-          console.log('Error fetching user data:', error);
+          // console.log('Error fetching user data:', error);
         }
       } else {
-        console.log('User is logged out');
+        // console.log('User is logged out');
       }
     });
 
-    return () => unsubscribe();
+    return () => changingInPassword();
   }, []);
 
   const onSubmit = async (data) => {
     const user = auth.currentUser;
 
     if (user) {
+      setLoading(true); 
       try {
         const credential = EmailAuthProvider.credential(user.email, data.oldPassword);
         await reauthenticateWithCredential(user, credential);
 
-
         if (data.newPassword === data.repeatPassword) {
-
           await updatePassword(user, data.newPassword);
-          console.log('Password updated successfully!');
+          // console.log('Password updated successfully!'); 
           reset();
         } else {
-          console.log('New passwords do not match.');
+          // console.log('New passwords do not match.');
         }
       } catch (error) {
-        console.error('Error updating password:', error);
+        // console.error('Error updating password:', error); 
+      } finally {
+        setLoading(false); 
       }
     } else {
-      console.log('No user is logged in.');
+      // console.log('No user is logged in.'); 
     }
   };
-
 
   const newPassword = watch('newPassword');
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg border-2 border-gray-200">
+        <form onSubmit={handleSubmit(onSubmit)}>
 
-        
-       <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Old Password*/}
+          {/* User Image and Fullname */}
+
           {profileData.profileImage && (
-          <div className="mb-4">
-            <img 
-              src={profileData.profileImage} 
-              alt="User"
-              className="w-36 h-36 border-2 rounded-lg border-gray-300" 
-            />
-            <h1>{profileData.fullname} </h1>
-          </div>
-        )} 
-          <div className="form-control mb-4">
-          <h1 className='font-bold text-2xl my-2'>Password</h1>
+            <div className="mb-4 text-center">
+              <img 
+                src={profileData.profileImage} 
+                alt="User"
+                className="w-36 h-36 border-2 rounded-lg border-gray-300 mx-auto" 
+              />
+              <h1>{profileData.fullname}</h1>
+            </div>
+          )}
+          
+          {/* Old Password Field */}
 
+          <div className="form-control mb-4">
+            <h1 className='font-bold text-2xl my-2'>Password</h1>
             <input
               type="password"
               {...register('oldPassword', { required: 'Old password is required' })}
@@ -95,6 +98,7 @@ const Profile = () => {
           </div>
 
           {/* New Password Field */}
+
           <div className="form-control mb-4">
             <input
               type="password"
@@ -109,6 +113,7 @@ const Profile = () => {
           </div>
 
           {/* Repeat New Password Field */}
+
           <div className="form-control mb-6">
             <input
               type="password"
@@ -123,8 +128,8 @@ const Profile = () => {
             {errors.repeatPassword && <p className="text-red-500 text-sm">{errors.repeatPassword.message}</p>}
           </div>
 
-          <button className="btn bg-[#00b5fd] w-full" type="submit">
-            Update Password
+          <button className="btn bg-[#00b5fd] w-full" type="submit" disabled={loading}>
+            {loading ? 'Updating...' : 'Update Password'}
           </button>
         </form>
       </div>

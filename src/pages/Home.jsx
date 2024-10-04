@@ -2,10 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { auth, db, getAllData } from '../config/firebase/firebasemethods';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [users, setUsers] = useState([]);
   const [blogs, setBlogs] = useState([]);
+  const navigate = useNavigate()
+
+
+const singleUserBlogs = (item) => {
+  navigate(`singleUser/${item.uid}`)
+}
 
   const fetchUsers = async () => {
     try {
@@ -14,10 +21,10 @@ const Home = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      console.log(usersData);
+      // console.log(usersData);
       setUsers(usersData);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      // console.error("Error fetching users:", error);
     }
   };
 
@@ -25,11 +32,10 @@ const Home = () => {
   const fetchBlogs = async () => {
     try {
       const blogsData = await getAllData("blogs");
-      console.log(blogsData);
+      // console.log(blogsData);
       setBlogs(blogsData);
     } catch (err) {
-      console.error("Error fetching blogs:", err);
-      setErrorBlogs('Failed to load blogs. Please try again later.');
+      // console.error("Error fetching blogs:", err);
     }
   };
 
@@ -37,15 +43,15 @@ const Home = () => {
     fetchUsers();
     fetchBlogs();
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const onAuthWork = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("User is logged in:", user.uid);
+        // console.log("User is logged in:", user.uid);
       } else {
-        console.log("User is logged out.");
+        // console.log("User is logged out.");
       }
     });
 
-    return () => unsubscribe();
+    return () => onAuthWork();
   }, []);
 
   return (
@@ -74,9 +80,7 @@ const Home = () => {
           <div className="flex-1">
             <h2 className="text-4xl font-bold text-gray-800 mb-2">{item.title}</h2>
             <p className="text-lg text-gray-600">{item.description}</p>
-            <p className="text-lg text-center text-gray-400 mt-2">
-              Posted by: {user ? user.fullname : 'Unknown'}
-            </p>
+            <button className='text-[#00b5fd] text-2xl my-3' onClick={() => singleUserBlogs(item)}>see all from this user</button>
           </div>
         </div>
       );
@@ -91,3 +95,4 @@ const Home = () => {
 };
 
 export default Home;
+
