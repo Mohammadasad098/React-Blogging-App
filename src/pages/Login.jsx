@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { auth, loginUser } from '../config/firebase/firebasemethods';
+import { loginUser } from '../config/firebase/firebasemethods';
 import { useNavigate } from 'react-router-dom';
-import { onAuthStateChanged } from 'firebase/auth';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [checkingAuthState, setCheckingAuthState] = useState(true); // New state to track auth status
 
-  // Function to handle user login
   const loginUserFromFirebase = async (data) => {
     setLoading(true);
     setErrorMessage('');
@@ -20,6 +17,7 @@ const Login = () => {
         email: data.email,
         password: data.password
       });
+      // console.log(userLogin);
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
@@ -27,23 +25,6 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  // UseEffect to check user authentication state
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate("/dashboard"); // Redirect if already logged in
-      }
-      setCheckingAuthState(false); // Stop checking once the state is determined
-    });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, [navigate]);
-
-  if (checkingAuthState) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>; // Show a loading state while checking
   }
 
   return (
@@ -80,13 +61,13 @@ const Login = () => {
               className="w-full py-3 bg-[#00b5fd] text-white rounded-lg"
               disabled={loading} // Disable button while loading
             >
-              {loading ? <span className="loading loading-dots loading-md"></span> : 'LOGIN'} {/* Show 'LOGIN' until loading */}
+              {loading ? <span className="loading loading-dots loading-md"></span> : 'LOGIN'} {/* Keep 'LOGIN' until loading */}
             </button>
           </div>
         </div>
       </form>
     </div>
   );
-};
+}
 
 export default Login;
