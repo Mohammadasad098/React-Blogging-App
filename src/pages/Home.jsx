@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { auth, db, getAllData } from '../config/firebase/firebasemethods';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from "firebase/firestore";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [users, setUsers] = useState([]);
