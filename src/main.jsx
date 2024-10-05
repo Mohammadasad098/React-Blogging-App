@@ -25,23 +25,23 @@ const router = createBrowserRouter([
             },
             {
                 path: "login",
-                element: <LoginProtectedRoute component={<Login/>}/>
+                element: <Login/>
             },
             {
                 path: "register",
-                element: <RegisterProtectedRoute component={<Register/>}/>
+                element: <Register/>
             },
             {
                 path: "profile",
-                element: <ProtectedRoutes component={<Profile/>}/>
+                element: <Profile/>
             },
             {
                 path: "dashboard",
-                element: <ProtectedRoutes component={<Dashboard/>}/>
+                element: <Dashboard/>
             },
             {
                 path: "logout",
-                element: <ProtectedRoutes component={<Logout/>}/>
+                element: <Logout/>
             },
             {
                 path: "singleUser/:uid",
