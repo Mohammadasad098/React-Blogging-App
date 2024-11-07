@@ -56,7 +56,7 @@ const SingleUser = () => {
       <div className="border border-gray-300 p-4 mb-4">
         <Link to={'/'}><p className='text-4xl mx-32 text-[#00b5fd] font-semibold'>{lessThan}Back to all blogs</p></Link>
       </div>
-      <div className="flex flex-col md:flex-row justify-center gap-8 p-4">
+      <div className="flex flex-col-reverse md:flex-row justify-center gap-8 p-4">
         <div className="w-full md:w-2/3">
           <h3 className="text-3xl font-bold mt-4 mb-6 text-center md:text-left mx-32">
             {userData ? `All Blogs from ${userData.fullname}` : "All Blogs"}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { signUpUser, uploadImage } from '../config/firebase/firebasemethods';
+import { signUpUser, uploadImage, signOutUser, auth } from '../config/firebase/firebasemethods';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -14,7 +14,6 @@ const Register = () => {
   } = useForm();
 
   const registerUserFromFirebase = async (data) => {
-    // console.log(data);
     setLoading(true);
 
     if (data.profileimage.length > 0) {
@@ -27,10 +26,10 @@ const Register = () => {
           password: data.password,
           profileImage: userProfileImageUrl,
         });
-        // console.log('User Registered Successfully:', userData);
+        await signOutUser(auth);
         navigate('/login');
       } catch (error) {
-        // console.error('Error registering user:', error);
+        console.error('Error registering user:', error);
       } finally {
         setLoading(false);
       }
